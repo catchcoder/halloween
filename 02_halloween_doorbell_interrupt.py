@@ -57,8 +57,10 @@ def check_proc_running():
 		
 		proc.stdout.flush
 
+#Set interrupt on start and stop pinn
 GPIO.add_event_detect(btn_pin,GPIO.FALLING,callback=play_evil, bouncetime=500)
 GPIO.add_event_detect(stop_pin,GPIO.FALLING,callback=stop_play, bouncetime=500)	
+
 try:        
 
 	while True:
@@ -74,7 +76,7 @@ try:
 			#if check_proc_running():
 			#	stop_play()
 		#		proc = 0
-		check_proc_running()	
+			check_proc_running()	
  		
 
 		if proc == 0:
