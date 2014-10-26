@@ -74,7 +74,7 @@ try:
 			#if check_proc_running():
 			#	stop_play()
 		#		proc = 0
-			
+		check_proc_running()	
  		
 
 		if proc == 0:
