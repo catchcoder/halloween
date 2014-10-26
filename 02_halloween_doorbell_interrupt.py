@@ -47,15 +47,19 @@ def stop_play(channel):
 		proc = 0
 
 def check_proc_running():
-	proc = subprocess.Popen(["ps aux | grep 'mpg321' | grep 'defunct'"], shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+	global proc
+	p = subprocess.Popen(["ps aux | grep 'mpg321' | grep 'defunct'"], shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 	
 	
-	for line in iter(proc.stdout.readline,''):
+	for line in iter(p.stdout.readline,''):
 		line = line.replace('\r','').replace('\n','')
 		if 'mpg321' in line and 'defunct' in line and not 'ps' in line: 
+			subprocess.Popen.kill(proc)
+			GPIO.output(leds_pin,False)
+			proc = 0
 			return True
 		
-		proc.stdout.flush
+		p.stdout.flush
 
 #Set interrupt on start and stop pinn
 GPIO.add_event_detect(btn_pin,GPIO.FALLING,callback=play_evil, bouncetime=500)
@@ -76,12 +80,13 @@ try:
 			#if check_proc_running():
 			#	stop_play()
 		#		proc = 0
-			check_proc_running()	
+			check_proc_running()
+		
  		
 
 		if proc == 0:
 			time.sleep(0.4)
-
+		
 #finally:  
 #    	print("Cleaning up")
 #    	GPIO.cleanup()
