@@ -7,22 +7,24 @@ import os
 
 GPIO.setmode(GPIO.BCM)
 
-# set pins used
+# set pins to be used
 leds_pin = 17
 btn_pin = 24
 stop_pin = 23
 
+# Set pins as Output to trigger the transistor or relay
 GPIO.setup(leds_pin,GPIO.OUT)
 
+# Set pins for the two switches
 GPIO.setup(btn_pin, GPIO.IN,pull_up_down=GPIO.PUD_UP)
 GPIO.setup(stop_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # switch  off leds
 GPIO.output(leds_pin,False)
 
-proc = 0
+#proc = 0
 blnflash = False
-playing = False
+proc = 0
 
 # location of files used
 mp3_laugh = "/opt/ween/evillaugh.mp3" # evil laugh file 3 to 5 seconds
@@ -84,7 +86,7 @@ try:
 			time.sleep(0.4)
 		
 
-except KeyboardInterrupt:
-	GPIO.cleanup() # Clean up GPIO on CTRL+C exit
-
-GPIO.cleanup() # Clean up GPIO on normal exit
+#except KeyboardInterrupt:
+#	GPIO.cleanup() # Clean up GPIO on CTRL+C exit
+finally:
+	GPIO.cleanup() # Clean up GPIO on normal exit
